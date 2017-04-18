@@ -2,7 +2,9 @@ package com.example.danie.headsup;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -50,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
         alert.setPositiveButton("Take a picture", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 //Your action here
+                Intent intent = new Intent(((Dialog) dialog).getContext(), Main2Activity.class);
+                startActivity(intent);
             }
         });
 
