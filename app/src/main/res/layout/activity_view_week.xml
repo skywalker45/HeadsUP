@@ -7,6 +7,15 @@
     tools:context=".ViewWeekActivity"
     android:background="@color/Black">
 
+    <TextView
+        android:id="@+id/viewTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Upcoming Week"
+        android:textAlignment="center"
+        android:textColor="@color/White"
+        android:textSize="36sp" />
+
     <ListView
         android:id="@+id/events_list"
         android:layout_width="match_parent"
