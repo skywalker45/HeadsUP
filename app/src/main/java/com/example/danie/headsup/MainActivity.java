@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.i("OnCreate", "OnCreate method has been executed");
 
+        //read syllabus
         final Button  button = (Button) findViewById(R.id.button1);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick (View v) {
@@ -27,13 +28,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //view next week
         final Button button2 = (Button) findViewById(R.id.button2);
         button2.setOnClickListener(new View.OnClickListener() {
             public void onClick (View v) {
                 //load new intent here
+                Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
+                startActivity(intent);
             }
         });
 
+        //options
         final Button button3 = (Button) findViewById(R.id.button3);
         button3.setOnClickListener(new View.OnClickListener() {
             public void onClick (View v) {
@@ -52,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
         alert.setPositiveButton("Take a picture", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 //Your action here
-                Intent intent = new Intent(((Dialog) dialog).getContext(), Main2Activity.class);
-                startActivity(intent);
+                //Intent intent = new Intent(((Dialog) dialog).getContext(), Main2Activity.class);
+                //startActivity(intent);
             }
         });
 
