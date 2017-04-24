@@ -1,6 +1,5 @@
 package com.example.danie.headsup;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -31,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             public void onClick (View v) {
                 //load new intent here
+                Intent intent = new Intent(getApplicationContext(), CalendarActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         alert.setPositiveButton("Take a picture", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 //Your action here
-                Intent intent = new Intent(((Dialog) dialog).getContext(), Main2Activity.class);
+                Intent intent = new Intent(((Dialog) dialog).getContext(), ScanActivity.class);
                 startActivity(intent);
             }
         });
@@ -60,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
         alert.setNegativeButton("Choose folder",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                 //       Intent intent = new Intent(((Dialog) dialog).getContext(), FileChooser.class);
-                 //       startActivity(intent);
+                        Intent intent = new Intent(((Dialog) dialog).getContext(), FileChooser.class);
+                        startActivity(intent);
                     }
                 });
 

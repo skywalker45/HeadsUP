@@ -92,6 +92,8 @@ public class CalendarActivity extends Activity
                 mOutputText.setText("");
                 getResultsFromApi();
                 mCallApiButton.setEnabled(true);
+                Intent intent = new Intent(getApplicationContext(), ViewWeekActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -103,7 +105,7 @@ public class CalendarActivity extends Activity
         mProgress.setMessage("Calling Google Calendar API ...");
 
 
-        getResultsFromApi();
+        //getResultsFromApi();
         // Initialize credentials and service object.
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
