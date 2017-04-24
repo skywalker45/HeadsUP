@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 
@@ -47,7 +48,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void askquestion() {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        LayoutInflater factory = LayoutInflater.from(this);
         alert.setTitle("Where is your syllabus?");
+        final View view = factory.inflate(R.layout.layout_dialog, null);
+        alert.setView(view);
         // alert.setMessage("Message");
 
         alert.setPositiveButton("Take a picture", new DialogInterface.OnClickListener() {
