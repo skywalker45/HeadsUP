@@ -35,12 +35,18 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Calendar;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -66,7 +72,7 @@ public class CalendarActivity extends Activity
 
     private static final String BUTTON_TEXT = "Access Google Calendar";
     private static final String PREF_ACCOUNT_NAME = "accountName";
-    private static final String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
+    private static final String[] SCOPES = { CalendarScopes.CALENDAR };
 
     /**
      * Create the calendar activity.
@@ -77,18 +83,6 @@ public class CalendarActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_layout);
 
-        /*LinearLayout activityLayout = new LinearLayout(this);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        activityLayout.setLayoutParams(lp);
-        activityLayout.setOrientation(LinearLayout.VERTICAL);
-        activityLayout.setPadding(16, 16, 16, 16);
-
-        ViewGroup.LayoutParams tlp = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);*/
-
         mCallApiButton = (Button) findViewById(R.id.buttonAPI);
         mCallApiButton.setText(BUTTON_TEXT);
         mCallApiButton.setOnClickListener(new View.OnClickListener() {
@@ -97,25 +91,19 @@ public class CalendarActivity extends Activity
                 mCallApiButton.setEnabled(false);
                 mOutputText.setText("");
                 getResultsFromApi();
-                //mCallApiButton.setEnabled(true);
+                mCallApiButton.setEnabled(true);
             }
         });
-        //activityLayout.addView(mCallApiButton);
 
         mOutputText = (TextView) findViewById(R.id.viewText);
-       /* mOutputText.setLayoutParams(tlp);
-        mOutputText.setPadding(16, 16, 16, 16);
-        mOutputText.setVerticalScrollBarEnabled(true);
-        mOutputText.setMovementMethod(new ScrollingMovementMethod());*/
         mOutputText.setText(
                 "Click the \'" + BUTTON_TEXT +"\' button to test the API.");
-        //activityLayout.addView(mOutputText);
 
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("Calling Google Calendar API ...");
 
-        //setContentView(activityLayout);
 
+        getResultsFromApi();
         // Initialize credentials and service object.
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
@@ -360,12 +348,19 @@ public class CalendarActivity extends Activity
          * @throws IOException
          */
         private List<String> getDataFromApi() throws IOException {
+
+            //create event
+            insertEvent();
             // List the next 10 events from the primary calendar.
+            //but just within one week from current time
             DateTime now = new DateTime(System.currentTimeMillis());
+            DateTime week = new DateTime(System.currentTimeMillis()+604800000L);
+
             List<String> eventStrings = new ArrayList<String>();
             Events events = mService.events().list("primary")
                     .setMaxResults(10)
                     .setTimeMin(now)
+                    .setTimeMax(week)
                     .setOrderBy("startTime")
                     .setSingleEvents(true)
                     .execute();
@@ -381,8 +376,59 @@ public class CalendarActivity extends Activity
                 eventStrings.add(
                         String.format("%s (%s)", event.getSummary(), start));
             }
+
             return eventStrings;
         }
+
+        /**
+         * take array list
+         * make calendar event
+         */
+        public void insertEvent(){
+            Event event = new Event()
+                    .setSummary("All day")
+                    .setLocation("800 Howard St., San Francisco, CA 94103")
+                    .setDescription("headsup");
+
+            DateTime startDateTime = new DateTime("2017-04-28T09:00:00-07:00");
+            EventDateTime start = new EventDateTime()
+                    .setDateTime(startDateTime)
+                    .setTimeZone("America/Chicago");
+            event.setStart(start);
+
+            DateTime endDateTime = new DateTime("2017-04-28T17:00:00-07:00");
+            EventDateTime end = new EventDateTime()
+                    .setDateTime(endDateTime)
+                    .setTimeZone("America/Chicago");
+            event.setEnd(end);
+
+            /*String[] recurrence = new String[] {"RRULE:FREQ=DAILY;COUNT=2"};
+            event.setRecurrence(Arrays.asList(recurrence));
+
+            EventAttendee[] attendees = new EventAttendee[] {
+                    new EventAttendee().setEmail("lpage@example.com"),
+                    new EventAttendee().setEmail("sbrin@example.com"),
+            };
+            event.setAttendees(Arrays.asList(attendees));
+
+            EventReminder[] reminderOverrides = new EventReminder[] {
+                    new EventReminder().setMethod("email").setMinutes(24 * 60),
+                    new EventReminder().setMethod("popup").setMinutes(10),
+            };
+            Event.Reminders reminders = new Event.Reminders()
+                    .setUseDefault(false)
+                    .setOverrides(Arrays.asList(reminderOverrides));
+            event.setReminders(reminders);*/
+
+            String calendarId = "primary";
+            try {
+                mService.events().insert("primary", event).execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //Toast.makeText(getApplicationContext(),"Event created: %s\n", Toast.LENGTH_LONG).show();
+        }
+
 
 
         @Override
