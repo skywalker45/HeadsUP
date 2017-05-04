@@ -1,29 +1,69 @@
 package com.example.danie.headsup;
 
-import android.content.Intent;
+import android.app.Activity;
+import android.content.DialogInterface;
+import android.os.Environment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import org.apache.commons.io.FileUtils;
+import java.io.File;
 
+public class FileChooser extends Activity implements IFolderItemListener {
 
-public class FileChooser extends AppCompatActivity {
+    FolderLayout localFolders;
 
-    private static final int REQUEST_CHOOSER = 1234;
+    /** Called when the activity is first created. */
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_chooser);
 
-        // Create the ACTION_GET_CONTENT Intent
-    //    Intent getContentIntent = FileUtils.createGetContentIntent();
+        String root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
+        localFolders = (FolderLayout)findViewById(R.id.localfolders);
+        localFolders.setIFolderItemListener(this);
+        localFolders.setDir(root);//change directory if u want,default is root
 
-//        Intent intent = Intent.createChooser(getContentIntent, "Select a file");
-//        startActivityForResult(intent, REQUEST_CHOOSER);
+    }
+
+    //Your stuff here for Cannot open Folder
+    public void OnCannotFileRead(File file) {
+        // TODO Auto-generated method stub
+        new AlertDialog.Builder(this)
+                .setIcon(R.drawable.ic_chooser)
+                .setTitle(
+                        "[" + file.getName()
+                                + "] folder can't be read!")
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog,
+                                                int which) {
+
+
+                            }
+                        }).show();
 
     }
 
 
+    //Your stuff here for file Click
+    public void OnFileClicked(File file) {
+        // TODO Auto-generated method stub
+        new AlertDialog.Builder(this)
+                .setIcon(R.drawable.ic_chooser)
+                .setTitle("[" + file.getName() + "]")
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,
+                                                int which) {
+
+
+                            }
+
+                        }).show();
+    }
 
 }

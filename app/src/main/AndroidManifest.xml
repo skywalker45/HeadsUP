@@ -3,6 +3,10 @@
     package="com.example.danie.headsup">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -23,18 +27,8 @@
             android:value="ocr" />
 
         <activity android:name=".Main2Activity" />
-        <activity android:name=".FileChooser"
-            android:exported="true"
-            android:icon="@drawable/ic_chooser"
-            android:enabled="@bool/use_activity"
-            android:label="@string/choose_file">
-            <intent-filter>
-                <action android:name="android.intent.action.GET_CONTENT" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.OPENABLE" />
-                <data android:mimeType="*/*" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".IFolderItemListener" />
+        <activity android:name=".FolderLayout"></activity>
     </application>
 
 </manifest>

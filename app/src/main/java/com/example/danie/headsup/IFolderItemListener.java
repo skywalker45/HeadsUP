@@ -1,13 +1,14 @@
 package com.example.danie.headsup;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import java.io.File;
 
-public class IFolderItemListener extends AppCompatActivity {
+/**
+ * Created by Danny on 4/22/2017.
+ */
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ifolder_item_listener);
-    }
+public interface IFolderItemListener {
+
+    void OnCannotFileRead(File file);//implement what to do folder is Unreadable
+    void OnFileClicked(File file);//What to do When a file is clicked
 }
+

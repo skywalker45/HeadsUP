@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
         alert.setNegativeButton("Choose folder",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                 //       Intent intent = new Intent(((Dialog) dialog).getContext(), FileChooser.class);
-                 //       startActivity(intent);
+                        Intent intent = new Intent(((Dialog) dialog).getContext(), FileChooser.class);
+                        startActivity(intent);
                     }
                 });
 
