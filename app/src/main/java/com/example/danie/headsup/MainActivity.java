@@ -1,6 +1,5 @@
 package com.example.danie.headsup;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -8,6 +7,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 
@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             public void onClick (View v) {
                 //load new intent here
+                Intent intent = new Intent(getApplicationContext(), CalendarActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -46,13 +48,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void askquestion() {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        LayoutInflater factory = LayoutInflater.from(this);
         alert.setTitle("Where is your syllabus?");
+        final View view = factory.inflate(R.layout.layout_dialog, null);
+        alert.setView(view);
         // alert.setMessage("Message");
 
         alert.setPositiveButton("Take a picture", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 //Your action here
-                Intent intent = new Intent(((Dialog) dialog).getContext(), Main2Activity.class);
+                Intent intent = new Intent(((Dialog) dialog).getContext(), ScanActivity.class);
                 startActivity(intent);
             }
         });

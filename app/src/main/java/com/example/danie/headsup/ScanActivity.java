@@ -1,7 +1,6 @@
 package com.example.danie.headsup;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -20,7 +19,7 @@ import com.google.android.gms.vision.text.TextRecognizer;
 
 import java.io.IOException;
 
-public class Main2Activity extends AppCompatActivity {
+public class ScanActivity extends AppCompatActivity {
 
     SurfaceView cameraView;
     TextView textView;
@@ -55,7 +54,7 @@ public class Main2Activity extends AppCompatActivity {
 
         TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
         if (!textRecognizer.isOperational()) {
-            Log.w("Main2Activity", "Detector dependencies are not yet available");
+            Log.w("ScanActivity", "Detector dependencies are not yet available");
         } else {
             cameraSource = new CameraSource.Builder(getApplicationContext(), textRecognizer)
                     .setFacing(CameraSource.CAMERA_FACING_BACK)
@@ -69,7 +68,7 @@ public class Main2Activity extends AppCompatActivity {
 
                     try {
                         if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                                ActivityCompat.requestPermissions(Main2Activity.this,
+                                ActivityCompat.requestPermissions(ScanActivity.this,
                                         new String[] {Manifest.permission.CAMERA},
                                         RequestCameraPermissionID);
                             return;
